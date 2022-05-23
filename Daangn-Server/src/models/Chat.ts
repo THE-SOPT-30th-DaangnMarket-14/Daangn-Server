@@ -4,7 +4,7 @@ import { ChatInfo } from '../interfaces/chat/ChatInfo';
 const ChatSchema = new mongoose.Schema({
   count: {
     type: Number,
-    required: true,
+    default: 0
   },
 });
 

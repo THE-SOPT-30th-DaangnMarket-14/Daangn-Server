@@ -4,7 +4,7 @@ import { LikeInfo } from "../interfaces/like/LikeInfo"
 const LikeSchema = new mongoose.Schema({
   count: {
     type: Number,
-    required: true
+    default: 0
   }
 });
 

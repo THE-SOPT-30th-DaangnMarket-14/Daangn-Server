@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { ItemInfo } from '../interfaces/item/ItemInfo';
 
 const ItemSchema = new mongoose.Schema({
@@ -7,14 +7,13 @@ const ItemSchema = new mongoose.Schema({
     required: true
   }, 
   location: {
-    type: String,
-    required: true
+    type: String
   },
   price: {
     type: Number,
     required: true
   },
-  image_list: {
+  imageList: {
     type: Array,
     required: true
   },
@@ -22,9 +21,16 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  created_at: {
-    type: Date
+  likeId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Like"
+  },
+  chatId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Chat"
   }
+},{
+  timestamps: true
 });
 
 export default mongoose.model<ItemInfo & mongoose.Document>("Item", ItemSchema);
