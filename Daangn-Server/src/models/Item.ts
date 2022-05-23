@@ -1,5 +1,8 @@
+import { timeStamp } from 'console';
 import mongoose from 'mongoose';
+
 import { ItemInfo } from '../interfaces/item/ItemInfo';
+
 
 const ItemSchema = new mongoose.Schema({
   title: {
@@ -22,9 +25,8 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  created_at: {
-    type: Date
-  }
+},{
+  timestamps: true
 });
 
 export default mongoose.model<ItemInfo & mongoose.Document>("Item", ItemSchema);
