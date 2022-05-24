@@ -3,6 +3,9 @@ const message = {
   NOT_FOUND: "존재하지 않는 자원입니다.",
   BAD_REQUEST: "잘못된 요청입니다.",
   INTERNAL_SERVER_ERROR: "서버 내부 오류",
+
+  CREATE_ITEM_SUCCESS: "아이템 생성 성공",
+  READ_ITEM_SUCCESS: "아이템 조회 성공"
 };
 
 export default message;
