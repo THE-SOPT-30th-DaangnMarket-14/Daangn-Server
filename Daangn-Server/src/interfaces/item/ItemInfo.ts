@@ -6,6 +6,6 @@ export interface ItemInfo {
     title: string;
     location: string;
     price: number;
-    imageList: Array<File>;
+    imageList: Array<string>;
     contents: string;
 }
