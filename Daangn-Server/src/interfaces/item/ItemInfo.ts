@@ -1,12 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 export interface ItemInfo {
-  like_id: mongoose.Types.ObjectId | string,
-  chat_id: mongoose.Types.ObjectId | string,
-  title: string,
-  location: string,
-  price: number,
-  image_list: string[],
-  content: string,
-  created_at: Date
+    likeId: mongoose.Types.ObjectId | string;
+    chatId: mongoose.Types.ObjectId | string;
+    title: string;
+    location: string;
+    price: number;
+    imageList: Array<File>;
+    contents: string;
 }
