@@ -30,7 +30,8 @@ const ItemSchema = new mongoose.Schema({
     ref: "Chat"
   }
 },{
-  timestamps: true
+  timestamps: true,
+  versionKey: false
 });
 
 export default mongoose.model<ItemInfo & mongoose.Document>("Item", ItemSchema);

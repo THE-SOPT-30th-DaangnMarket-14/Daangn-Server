@@ -6,6 +6,8 @@ const LikeSchema = new mongoose.Schema({
     type: Number,
     default: 0
   }
+},{
+  versionKey: false
 });
 
 export default mongoose.model<LikeInfo&mongoose.Document>("Like", LikeSchema);

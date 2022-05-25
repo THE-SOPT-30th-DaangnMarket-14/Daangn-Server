@@ -6,6 +6,8 @@ const ChatSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+},{
+  versionKey: false
 });
 
 export default mongoose.model<ChatInfo & mongoose.Document>("Chat", ChatSchema);
