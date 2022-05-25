@@ -10,12 +10,12 @@ import mongoose from "mongoose";
 const createItem = async (itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
     try {
         const like = new Like({ 
-            count = Math.floor(Math.random() * 101)
+            count: Math.floor(Math.random() * 101)
         })
         await like.save();
 
         const chat = new Chat({ 
-            count = Math.floor(Math.random() * 101)
+            count: Math.floor(Math.random() * 101)
         })
         await chat.save();
         

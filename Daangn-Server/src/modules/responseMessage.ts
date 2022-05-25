@@ -6,6 +6,7 @@ const message = {
 
     // 게시물
     CREATE_ITEM_SUCCESS: "게시물 생성 성공",
+    READ_ITEMS_SUCCESS: "모든 게시물 읽기 성공",
 };
 
 export default message;
