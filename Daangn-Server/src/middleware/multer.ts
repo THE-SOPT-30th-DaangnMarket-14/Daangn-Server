@@ -1,40 +1,28 @@
 import { Request } from "express";
+import AWS from "aws-sdk";
 import multer, { FileFilterCallback } from "multer";
+import multerS3 from "multer-s3";
+import config from "../config/index";
 
-type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
-export const fileStorage = multer.diskStorage({
-    destination: (
-        request: Request,
-        file: Express.Multer.File,
-        callback: DestinationCallback
-    ): void => {
-        callback(null, 'images/')
-    },
-
-    filename: (
-        req: Request,
-        file: Express.Multer.File,
-        callback: FileNameCallback
-    ): void => {
-        callback(null, file.originalname);
-    },
+export const s3: AWS.S3 = new AWS.S3({
+    accessKeyId: config.s3AccessKey,
+    secretAccessKey: config.s3SecretKey,
+    region: "ap-northeast-2",
 });
 
-export const fileFilter = (
-    request: Request,
-    file: Express.Multer.File,
-    callback: FileFilterCallback
-): void => {
-    if (
-        file.mimetype === "image/png" ||
-        file.mimetype === "image/jpg" ||
-        file.mimetype === "image/jpeg" ||
-        file.mimetype === "image/heic"
-    ) {
-        callback(null, true);
-    } else {
-        callback(null, false);
-    }
-};
+export const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        acl: "public-read-write",
+        bucket: config.bucketName,
+        key: (
+            req: Request,
+            file: Express.Multer.File,
+            callback: FileNameCallback
+        ): void => {
+            callback(null, file.originalname);
+        }
+    })
+});
