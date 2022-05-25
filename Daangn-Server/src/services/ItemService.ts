@@ -2,7 +2,7 @@ import { PostBaseResponseDto } from "../interfaces/common/PostBaseResponseDto";
 import { ItemCreateDto } from "../interfaces/item/ItemCreateDto";
 import Item from "../models/Item";
 
-const createItem = async (itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
+const createItem = async (fileData: Express.Multer.File, itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
     try {
         // TODO: likeId, chatId 여기서 설정해줘야 할 듯
         const likeArray: string[] = ['1234'];

@@ -18,7 +18,7 @@ export const fileStorage = multer.diskStorage({
         file: Express.Multer.File,
         callback: FileNameCallback
     ): void => {
-        callback(null, file.filename + "-" + file.originalname);
+        callback(null, file.originalname);
     },
 });
 
