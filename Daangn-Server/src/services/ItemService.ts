@@ -6,11 +6,9 @@ const createItemPost = async (itemCreateDto: ItemCreateDto) => {
     try {
         const item = new Item({
             title: itemCreateDto.title,
-            location: itemCreateDto.location,
-            price:itemCreateDto.price,
-            image_list: itemCreateDto.image_list,
-            content: itemCreateDto.content,
-            created_at: itemCreateDto.created_at
+            price: itemCreateDto.price,
+            imageList: itemCreateDto.imageList,
+            contents: itemCreateDto.contents,
         });
 
         await item.save();
@@ -26,6 +24,7 @@ const createItemPost = async (itemCreateDto: ItemCreateDto) => {
         throw error;
     }
 }
+
 export default {
     createItemPost,
 }
