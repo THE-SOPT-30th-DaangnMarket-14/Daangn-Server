@@ -11,16 +11,16 @@ const connectDB = async () => {
     mongoose.set("autoCreate", true); // 서버 실행 시 Collection 자동 생성
 
     console.log("Mongoose Connected ...");
-
-    Item.createCollection(function (collection) {
+    
+    Item.createCollection().then(function (collection) {
       console.log("Item created");
     });
 
-    Like.createCollection(function (collection) {
-      console.log("장서현 바보");
+    Like.createCollection().then(function (collection) {
+      console.log("Like created");
     });
 
-    Chat.createCollection(function (collection) {
+    Chat.createCollection().then(function (collection) {
       console.log("Chat created");
     });
     
