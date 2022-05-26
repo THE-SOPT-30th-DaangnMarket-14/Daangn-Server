@@ -35,9 +35,13 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  fileName: {
-    type: String,
-    required: true
+  likeId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Like"
+  },
+  chatId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Chat"
   }
 },{
   timestamps: true,

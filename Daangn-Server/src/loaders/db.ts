@@ -11,7 +11,7 @@ const connectDB = async () => {
     mongoose.set("autoCreate", true); // 서버 실행 시 Collection 자동 생성
 
     console.log("Mongoose Connected ...");
-
+    
     Item.createCollection().then(function (collection) {
       console.log("Item created");
     });

@@ -4,10 +4,8 @@ const message = {
   BAD_REQUEST: "잘못된 요청입니다.",
   INTERNAL_SERVER_ERROR: "서버 내부 오류",
 
-  //ITEM
-  ITEM_CREATE_SUCCESS: "판매 글 생성 성공",
-  ITEM_READ_SUCCESS: "판매 글 조회 성공",
-
+  CREATE_ITEM_SUCCESS: "아이템 생성 성공",
+  READ_ITEM_SUCCESS: "아이템 조회 성공"
 };
 
 export default message;

@@ -1,74 +1,87 @@
-import fs from "fs";
-
-import config from "../config";
-import storage from "../config/s3Config";
-
-import Chat from "../models/Chat";
 import Item from "../models/Item";
+import Chat from "../models/Chat";
 import Like from "../models/Like";
+import { ItemCreateDto } from '../interfaces/item/ItemCreateDto';
+import { ItemResponseDto } from '../interfaces/item/ItemResponseDto';
+import dayjs from "dayjs";
 
-import { ItemCreateDto } from "../interfaces/item/ItemCreateDto";
-import { PostBaseResponseDto } from "../interfaces/common/PostBaseResponseDto";
+const createItem = async(itemCreateDto: ItemCreateDto) => {
+  try {
 
+    const chat = new Chat();
+    await chat.save();
 
+    const like = new Like();
+    await like.save();
 
+    const item = new Item(itemCreateDto);
+    await item.save();
 
+    const updatedItem = {
+      likeId: like._id,
+      chatId: chat._id
+    };
+    await Item.findByIdAndUpdate(item._id, updatedItem);
+    await item.save();
 
-const createItemPost = async (reqImage: Express.Multer.File, itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
-    try {
+  } catch(error) {
+    console.log(error);
+    throw error;
+  }
+}
 
-        const fileContent: Buffer = fs.readFileSync(reqImage.path);
+const readItem = async() => {
+  try {
+        const items = await Item.find().populate("likeId chatId");
 
-        const params: {
-            Bucket: string;
-            Key: string;
-            Body: Buffer;
-        } = {
-            Bucket: config.bucketName,
-            Key: reqImage.originalname,
-            Body: fileContent
-        };
+        const data = await Promise.all(
+          items.map(async (item: any) => {
+            // 시간 차 구하기
+            const createdAt = item.createdAt;
+            const now = dayjs();
+            let timeDiffString: string;
 
-        const result = await storage.upload(params).promise();
+            // 올린 시간이 1시간 이내인 경우
+            if (now.diff(createdAt, "m") < 60)
+              timeDiffString = String(now.diff(createdAt, "m")) + " 분 전";
+            // 올린 시간이 하루 이내인 경우
+            else if (now.diff(createdAt, "h") < 24)
+              timeDiffString = String(now.diff(createdAt, "h")) + " 시간 전";
+            // 올린 시간이 한달 이내인 경우
+            else if (
+              now.diff(createdAt, "d") < 31 &&
+              now.diff(createdAt, "M") === 0
+            )
+              timeDiffString = String(now.diff(createdAt, "d")) + " 일 전";
+            // 올린 시간이 일년 이내인 경우
+            else if (now.diff(createdAt, "M") < 12)
+              timeDiffString = String(now.diff(createdAt, "M")) + " 달 전";
+            // 올린 시간이 일년 이상인 경우
+            else timeDiffString = String(now.diff(createdAt, "y")) + " 년 전";
 
-        const chat = new Chat({
-            count: Math.floor(Math.random()*101)
-        });
+            const result = {
+              title: item.title,
+              location: item.location,
+              price: item.price,
+              image: item.imageList[0],
+              likeCount: item.likeId.count,
+              chatCount: item.chatId.count,
+              timeBefore: timeDiffString,
+            };
 
-        await chat.save();
-
-        const like = new Like({
-            count: Math.floor(Math.random()*101)
-        });
-
-        await like.save();
-
-        const item = new Item({
-            title: itemCreateDto.title,
-            price: itemCreateDto.price,
-            imageList: reqImage,
-            contents: itemCreateDto.contents,
-
-            //이미지 업로드
-            link: result.Location,
-            fileName: reqImage.originalname
-        });
-
-        await item.save();
-
-        const data = {
-            _id: item._id,
-            link: result.Location 
-        }   
+            return result;
+          })
+        );
 
         return data;
 
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+  } catch(error) {
+    console.log(error);
+    throw error;
+  }
 }
 
 export default {
-    createItemPost,
+  createItem,
+  readItem
 }
