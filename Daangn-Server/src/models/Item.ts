@@ -4,22 +4,22 @@ import { ItemInfo } from '../interfaces/item/ItemInfo';
 const ItemSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    //required: true
   }, 
   location: {
     type: String
   },
   price: {
     type: Number,
-    required: true
+    //required: true
   },
   imageList: {
     type: Array,
     required: true
   },
-  content: {
+  contents: {
     type: String,
-    required: true
+    //required: true
   },
   likeId: {
     type: mongoose.Types.ObjectId,
@@ -28,6 +28,16 @@ const ItemSchema = new mongoose.Schema({
   chatId: {
     type: mongoose.Types.ObjectId,
     ref: "Chat"
+  },
+
+  //이미지 파일
+  link: {
+    type: String,
+    required: true
+  },
+  fileName: {
+    type: String,
+    required: true
   }
 },{
   timestamps: true,

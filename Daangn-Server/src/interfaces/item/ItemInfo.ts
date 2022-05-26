@@ -8,4 +8,8 @@ export interface ItemInfo {
   price: number,
   image_list: string[],
   content: string
+  
+  //image 파일 받기
+  link: string;
+  fileName: string;
 }
