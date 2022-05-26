@@ -1,30 +1,47 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { ItemInfo } from '../interfaces/item/ItemInfo';
 
 const ItemSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    //required: true
   }, 
   location: {
-    type: String,
-    required: true
+    type: String
   },
   price: {
     type: Number,
-    required: true
+    //required: true
   },
-  image_list: {
+  imageList: {
     type: Array,
     required: true
   },
-  content: {
+  contents: {
+    type: String,
+    //required: true
+  },
+  likeId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Like"
+  },
+  chatId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Chat"
+  },
+
+  //이미지 파일
+  link: {
     type: String,
     required: true
   },
-  created_at: {
-    type: Date
+  fileName: {
+    type: String,
+    required: true
   }
+},{
+  timestamps: true,
+  versionKey: false
 });
 
 export default mongoose.model<ItemInfo & mongoose.Document>("Item", ItemSchema);
