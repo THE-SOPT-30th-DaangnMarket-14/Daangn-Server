@@ -17,10 +17,18 @@ const createItem = async (req: Request, res: Response) => {
             .send(util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
     }
     const itemCreateDto: ItemCreateDto = req.body;
-    const imageList = req.files;
+    const imageList: any = req.files;
+    let imageStringList: string[] = [];
+    await Promise.all(
+        imageList.map(async (image: any) => {
+            imageStringList.push(image.path);
+        })
+    );
+
+    console.log(imageStringList);
 
     try {
-        const data = await ItemService.createItem(itemCreateDto);
+        const data = await ItemService.createItem(imageStringList, itemCreateDto);
         res.status(statusCode.CREATED).send(
             util.success(statusCode.CREATED, message.CREATE_ITEM_SUCCESS, data)
         );

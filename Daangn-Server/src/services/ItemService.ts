@@ -5,9 +5,8 @@ import { ItemResponseDto } from "../interfaces/item/ItemResponseDto";
 import Item from "../models/Item";
 import Like from "../models/Like";
 import Chat from "../models/Chat";
-import mongoose from "mongoose";
 
-const createItem = async (itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
+const createItem = async (imageStringList: string[], itemCreateDto: ItemCreateDto): Promise<PostBaseResponseDto> => {
     try {
         const like = new Like({ 
             count: Math.floor(Math.random() * 101)
@@ -28,7 +27,7 @@ const createItem = async (itemCreateDto: ItemCreateDto): Promise<PostBaseRespons
             title: itemCreateDto.title,
             location: location,
             price: itemCreateDto.price,
-            imageList: itemCreateDto.imageList,
+            imageList: imageStringList,
             contents: itemCreateDto.contents
         });
 
