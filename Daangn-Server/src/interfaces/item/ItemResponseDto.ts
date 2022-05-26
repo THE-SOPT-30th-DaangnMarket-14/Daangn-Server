@@ -5,5 +5,5 @@ export interface ItemResponseDto {
   image: string;
   likeCount: number;
   chatCount: number;
-  // timeBefore: string
+  timeBefore: string
 }
