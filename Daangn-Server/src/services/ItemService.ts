@@ -47,8 +47,11 @@ const createItem = async (imageStringList: string[], itemCreateDto: ItemCreateDt
 const getItems = async() => {
     try {
         const items = await Item.find().populate(
-            "likeId chatId"
+            "likeId", "count"
+        ).populate(
+            "chatId", "count"
         );
+        console.log(items);
 
         const data = await Promise.all(
             items.map(async (item: any) => {
