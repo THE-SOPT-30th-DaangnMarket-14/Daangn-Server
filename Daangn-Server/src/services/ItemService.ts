@@ -39,8 +39,6 @@ const readItem = async() => {
     itemFromDB.forEach( async item => {
       const like = await Like.findById(item.likeId).populate('_id');
       const chat = await Chat.findById(item.chatId).populate('_id');
-      console.log(like?.count);
-      console.log(chat?.count);
       const newItem: ItemResponseDto = {
         title: item.title,
         location: "언주역",
@@ -50,9 +48,8 @@ const readItem = async() => {
         chatCount: chat?.count
       }
       itemList.push(newItem);
-      console.log(itemList);
     });
-
+    console.log(itemList);
     return itemList;
 
   } catch(error) {

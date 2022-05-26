@@ -4,7 +4,8 @@ import upload from "../middleware/upload";
 
 const router: Router = Router();
 
-router.post('/', upload.array('image', 10), ItemController.createItem);
+// router.post('/', upload.fields([{ name: "image", maxCount: 10 }]), ItemController.createItem);
+router.post('/', upload.array("image", 10), ItemController.createItem);
 router.get('/', ItemController.readItem);
 
 export default router;
