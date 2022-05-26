@@ -1,11 +1,10 @@
 import { Router } from "express";
-import ItemController from "../controllers/ItemController";
-import upload from "../middleware/upload";
+import { ItemController } from "../controllers";
+import { upload } from "../middleware/Multer";
 
 const router: Router = Router();
 
-// router.post('/', upload.fields([{ name: "image", maxCount: 10 }]), ItemController.createItem);
-router.post('/', upload.array("image", 10), ItemController.createItem);
-router.get('/', ItemController.readItem);
+router.post("/", upload.array('images', 10), ItemController.createItem);
+router.get("/", ItemController.getItems);
 
 export default router;

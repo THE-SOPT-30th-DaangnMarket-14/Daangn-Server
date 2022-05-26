@@ -1,6 +1,6 @@
 export interface ItemCreateDto {
-  "title": string,
-  "price": number,
-  "content": string,
-  "imageList": string[]
+    title: string;
+    price: number;
+    contents: string;
+    imageList: Array<string>;
 }
