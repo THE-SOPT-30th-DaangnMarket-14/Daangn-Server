@@ -7,5 +7,5 @@ export interface ItemInfo {
   location?: string,
   price: number,
   imageList: string[],
-  content: string
+  contents: string
 }

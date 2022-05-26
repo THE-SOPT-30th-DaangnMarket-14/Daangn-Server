@@ -23,7 +23,7 @@ const createItem = async (req: Request, res: Response) => {
 
     const itemCreateDto: ItemCreateDto = {
     title: req.body.title,
-    content: req.body.content,
+    content: req.body.contents,
     price: req.body.price,
     imageList: imageList
   }
