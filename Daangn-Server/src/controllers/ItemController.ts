@@ -4,7 +4,6 @@ import message from '../modules/responseMessage';
 import util from '../modules/util';
 import ItemService from '../services/ItemService';
 import { ItemCreateDto } from '../interfaces/item/ItemCreateDto';
-import { AnyArray } from 'mongoose';
 
 /**
  *  @route POST /item
@@ -12,13 +11,8 @@ import { AnyArray } from 'mongoose';
  *  @access Public
  */
 const createItem = async (req: Request, res: Response) => {
-  const reqImage: any = req.files
-  console.log(reqImage);
-  let imageList: string[] = []
-  // reqImage.forEach( (image: any) => {
-  //   imageList.push(image.path);
-  // });
-
+  const reqImage: any = req.files;
+  let imageList: string[] = [];
 
   await Promise.all(
     reqImage.map(async (image: any) => {
@@ -26,7 +20,6 @@ const createItem = async (req: Request, res: Response) => {
       imageList.push(image.location);
     })
   );
-  console.log(imageList);
 
     const itemCreateDto: ItemCreateDto = {
     title: req.body.title,
