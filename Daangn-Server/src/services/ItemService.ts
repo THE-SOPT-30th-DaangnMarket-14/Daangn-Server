@@ -4,7 +4,7 @@ import Like from "../models/Like";
 import { ItemCreateDto } from '../interfaces/item/ItemCreateDto';
 import { ItemResponseDto } from '../interfaces/item/ItemResponseDto';
 
-const createItem = async(itemCreateDto: ItemCreateDto, imageList: string[]) => {
+const createItem = async(itemCreateDto: ItemCreateDto) => {
   try {
 
     const chat = new Chat();
@@ -18,8 +18,7 @@ const createItem = async(itemCreateDto: ItemCreateDto, imageList: string[]) => {
 
     const updatedItem = {
       likeId: like._id,
-      chatId: chat._id,
-      imageList: imageList
+      chatId: chat._id
     };
     await Item.findByIdAndUpdate(item._id, updatedItem);
     await item.save();
@@ -32,11 +31,30 @@ const createItem = async(itemCreateDto: ItemCreateDto, imageList: string[]) => {
 
 const readItem = async() => {
   try {
-    // const item = await Item.find();
-    const item = await Item.findById("628bc2711bf0d707eb12237d");
-    const chatCount = await Chat.findById(item?.chatId).populate('_id', { count: 1 });
-    console.log(chatCount);
-    console.log(item);
+    const itemList: ItemResponseDto[] = [];
+    
+    const itemFromDB = await Item.find();
+
+    // TODO: - foreach말고 다른 비동기처리 해야댐
+    itemFromDB.forEach( async item => {
+      const like = await Like.findById(item.likeId).populate('_id');
+      const chat = await Chat.findById(item.chatId).populate('_id');
+      console.log(like?.count);
+      console.log(chat?.count);
+      const newItem: ItemResponseDto = {
+        title: item.title,
+        location: "언주역",
+        price: item.price,
+        image: item.imageList[0],
+        likeCount: like?.count,
+        chatCount: chat?.count
+      }
+      itemList.push(newItem);
+      console.log(itemList);
+    });
+
+    return itemList;
+
   } catch(error) {
     console.log(error);
     throw error;

@@ -12,15 +12,22 @@ import { AnyArray } from 'mongoose';
  *  @access Public
  */
 const createItem = async (req: Request, res: Response) => {
-  const itemCreateDto: ItemCreateDto = req.body;
+
   const reqImage: any = req.files
   const imageList: string[] = []
   reqImage.forEach( (image: any) => {
     imageList.push(image.path);
   });
 
+    const itemCreateDto: ItemCreateDto = {
+    title: req.body.title,
+    content: req.body.content,
+    price: req.body.price,
+    imageList: imageList
+  }
+
   try {
-    await ItemService.createItem(itemCreateDto, imageList);
+    await ItemService.createItem(itemCreateDto);
 
     res
       .status(statusCode.CREATED)
