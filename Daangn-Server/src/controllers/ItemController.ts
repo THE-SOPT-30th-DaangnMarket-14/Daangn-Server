@@ -11,12 +11,12 @@ import { ItemCreateDto } from '../interfaces/item/ItemCreateDto';
  *  @access Public
  */
 const createItem = async (req: Request, res: Response) => {
-  const reqImage: any = req.files;
+  // TODO: - req.files undefined 검사
+  const reqImage: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];
   let imageList: string[] = [];
 
   await Promise.all(
-    reqImage.map(async (image: any) => {
-      console.log(image);
+    reqImage.map(async (image: Express.MulterS3.File) => {
       imageList.push(image.location);
     })
   );
