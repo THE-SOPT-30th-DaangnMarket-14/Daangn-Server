@@ -7,23 +7,25 @@ import dayjs from "dayjs";
 
 const createItem = async(itemCreateDto: ItemCreateDto) => {
   try {
-
+    // TODO: - save하는거 .. promise all로 한번에 해보자
     const chat = new Chat();
     await chat.save();
 
     const like = new Like();
     await like.save();
 
+    // TODO: - item 접근을 한번으로 줄여보자
+    // Hint: - const newObject = { ...itemCreateDto, likeId: ~, chatId: ~ }
     const item = new Item(itemCreateDto);
+
     await item.save();
 
     const updatedItem = {
       likeId: like._id,
-      chatId: chat._id
+      chatId: chat._id,
     };
     await Item.findByIdAndUpdate(item._id, updatedItem);
     await item.save();
-
   } catch(error) {
     console.log(error);
     throw error;
