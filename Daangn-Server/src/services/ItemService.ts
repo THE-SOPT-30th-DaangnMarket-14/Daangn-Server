@@ -37,7 +37,7 @@ const readItem = async() => {
 
     // TODO: - 최근 작성된 글 순서대로 정렬하기
     
-        const items = await Item.find().populate("likeId chatId");
+        const items = await Item.find().sort('-createdAt').populate("likeId chatId");
 
         const data = await Promise.all(
           items.map(async (item: any) => {
