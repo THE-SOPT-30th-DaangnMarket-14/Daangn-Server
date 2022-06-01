@@ -5,7 +5,9 @@ const message = {
   INTERNAL_SERVER_ERROR: "서버 내부 오류",
 
   CREATE_ITEM_SUCCESS: "아이템 생성 성공",
-  READ_ITEM_SUCCESS: "아이템 조회 성공"
+  READ_ITEM_SUCCESS: "아이템 조회 성공",
+
+  NO_IMAGE_FILES: "이미지 파일이 없습니다."
 };
 
 export default message;
