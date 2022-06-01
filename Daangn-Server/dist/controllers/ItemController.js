@@ -22,12 +22,23 @@ const ItemService_1 = __importDefault(require("../services/ItemService"));
  *  @access Public
  */
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // TODO: - req.files undefined 검사
     const reqImage = req.files;
-    let imageList = [];
-    yield Promise.all(reqImage.map((image) => __awaiter(void 0, void 0, void 0, function* () {
-        imageList.push(image.location);
-    })));
+    if (reqImage.length === 0) {
+        return res.status(statusCode_1.default.BAD_REQUEST).send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.NO_IMAGE_FILES));
+    }
+    // middleware에서 하는 것이 더 좋아보여요
+    let flag = true;
+    const imageList = yield Promise.all(reqImage.map((data) => {
+        if (data.mimetype != 'image/png') {
+            flag = false;
+        }
+        return data.location;
+    }));
+    if (!flag) {
+        return res
+            .status(statusCode_1.default.BAD_REQUEST)
+            .send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.WRONG_FILE_FORMAT));
+    }
     const itemCreateDto = {
         title: req.body.title,
         contents: req.body.contents,

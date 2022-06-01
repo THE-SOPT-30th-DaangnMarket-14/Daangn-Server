@@ -18,15 +18,18 @@ const Like_1 = __importDefault(require("../models/Like"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const createItem = (itemCreateDto) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // TODO: - save하는거 .. promise all로 한번에 해보자
         const chat = new Chat_1.default();
         yield chat.save();
         const like = new Like_1.default();
         yield like.save();
+        // TODO: - item 접근을 한번으로 줄여보자
+        // Hint: - const newObject = { ...itemCreateDto, likeId: ~, chatId: ~ }
         const item = new Item_1.default(itemCreateDto);
         yield item.save();
         const updatedItem = {
             likeId: like._id,
-            chatId: chat._id
+            chatId: chat._id,
         };
         yield Item_1.default.findByIdAndUpdate(item._id, updatedItem);
         yield item.save();
@@ -38,7 +41,7 @@ const createItem = (itemCreateDto) => __awaiter(void 0, void 0, void 0, function
 });
 const readItem = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const items = yield Item_1.default.find().populate("likeId chatId");
+        const items = yield Item_1.default.find().sort('-createdAt').populate("likeId chatId");
         const data = yield Promise.all(items.map((item) => __awaiter(void 0, void 0, void 0, function* () {
             // 시간 차 구하기
             const createdAt = item.createdAt;
@@ -46,20 +49,20 @@ const readItem = () => __awaiter(void 0, void 0, void 0, function* () {
             let timeDiffString;
             // 올린 시간이 1시간 이내인 경우
             if (now.diff(createdAt, "m") < 60)
-                timeDiffString = String(now.diff(createdAt, "m")) + " 분 전";
+                timeDiffString = String(now.diff(createdAt, "m")) + "분 전";
             // 올린 시간이 하루 이내인 경우
             else if (now.diff(createdAt, "h") < 24)
-                timeDiffString = String(now.diff(createdAt, "h")) + " 시간 전";
+                timeDiffString = String(now.diff(createdAt, "h")) + "시간 전";
             // 올린 시간이 한달 이내인 경우
             else if (now.diff(createdAt, "d") < 31 &&
                 now.diff(createdAt, "M") === 0)
-                timeDiffString = String(now.diff(createdAt, "d")) + " 일 전";
+                timeDiffString = String(now.diff(createdAt, "d")) + "일 전";
             // 올린 시간이 일년 이내인 경우
             else if (now.diff(createdAt, "M") < 12)
-                timeDiffString = String(now.diff(createdAt, "M")) + " 달 전";
+                timeDiffString = String(now.diff(createdAt, "M")) + "달 전";
             // 올린 시간이 일년 이상인 경우
             else
-                timeDiffString = String(now.diff(createdAt, "y")) + " 년 전";
+                timeDiffString = String(now.diff(createdAt, "y")) + "년 전";
             const result = {
                 title: item.title,
                 location: item.location,
