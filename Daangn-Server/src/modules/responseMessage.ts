@@ -7,7 +7,8 @@ const message = {
   CREATE_ITEM_SUCCESS: "아이템 생성 성공",
   READ_ITEM_SUCCESS: "아이템 조회 성공",
 
-  NO_IMAGE_FILES: "이미지 파일이 없습니다."
+  NO_IMAGE_FILES: "이미지 파일이 없습니다.",
+  WRONG_FILE_FORMAT: "이상한 파일 형식"
 };
 
 export default message;

@@ -11,7 +11,6 @@ import { ItemCreateDto } from '../interfaces/item/ItemCreateDto';
  *  @access Public
  */
 const createItem = async (req: Request, res: Response) => {
-  // TODO: - req.file undefined
   const reqImage: Express.MulterS3.File[] = req.files as Express.MulterS3.File[];
 
   if (reqImage.length === 0) {
@@ -20,11 +19,23 @@ const createItem = async (req: Request, res: Response) => {
     );
   }
 
+  // middleware에서 하는 것이 더 좋아보여요
+  let flag = true;
+
   const imageList = await Promise.all ( 
     reqImage.map((data: Express.MulterS3.File) => { 
+      if (data.mimetype != 'image/png') {
+        flag = false;
+      }
       return data.location
     })
   );
+
+  if (!flag) {
+    return res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.WRONG_FILE_FORMAT));
+  }
 
   const itemCreateDto: ItemCreateDto = {
     title: req.body.title,
