@@ -34,9 +34,6 @@ const createItem = async(itemCreateDto: ItemCreateDto) => {
 
 const readItem = async() => {
   try {
-
-    // TODO: - 최근 작성된 글 순서대로 정렬하기
-    
         const items = await Item.find().sort('-createdAt').populate("likeId chatId");
 
         const data = await Promise.all(
@@ -48,21 +45,21 @@ const readItem = async() => {
 
             // 올린 시간이 1시간 이내인 경우
             if (now.diff(createdAt, "m") < 60)
-              timeDiffString = String(now.diff(createdAt, "m")) + " 분 전";
+              timeDiffString = String(now.diff(createdAt, "m")) + "분 전";
             // 올린 시간이 하루 이내인 경우
             else if (now.diff(createdAt, "h") < 24)
-              timeDiffString = String(now.diff(createdAt, "h")) + " 시간 전";
+              timeDiffString = String(now.diff(createdAt, "h")) + "시간 전";
             // 올린 시간이 한달 이내인 경우
             else if (
               now.diff(createdAt, "d") < 31 &&
               now.diff(createdAt, "M") === 0
             )
-              timeDiffString = String(now.diff(createdAt, "d")) + " 일 전";
+              timeDiffString = String(now.diff(createdAt, "d")) + "일 전";
             // 올린 시간이 일년 이내인 경우
             else if (now.diff(createdAt, "M") < 12)
-              timeDiffString = String(now.diff(createdAt, "M")) + " 달 전";
+              timeDiffString = String(now.diff(createdAt, "M")) + "달 전";
             // 올린 시간이 일년 이상인 경우
-            else timeDiffString = String(now.diff(createdAt, "y")) + " 년 전";
+            else timeDiffString = String(now.diff(createdAt, "y")) + "년 전";
 
             const result = {
               title: item.title,
