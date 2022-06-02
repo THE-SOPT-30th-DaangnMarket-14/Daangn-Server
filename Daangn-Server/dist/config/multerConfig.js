@@ -7,6 +7,7 @@ exports.multerConfig = void 0;
 const s3Config_1 = __importDefault(require("./s3Config"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const _1 = __importDefault(require("."));
+const dayjs_1 = __importDefault(require("dayjs"));
 exports.multerConfig = {
     storage: (0, multer_s3_1.default)({
         s3: s3Config_1.default,
@@ -14,7 +15,8 @@ exports.multerConfig = {
         contentType: multer_s3_1.default.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: (req, file, cb) => {
-            cb(null, file.originalname);
+            const datetime = (0, dayjs_1.default)().format('YYYYMMDDHHmmss');
+            cb(null, datetime + "_" + file.originalname);
         },
     })
 };

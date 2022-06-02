@@ -29,7 +29,7 @@ const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     // middleware에서 하는 것이 더 좋아보여요
     let flag = true;
     const imageList = yield Promise.all(reqImage.map((data) => {
-        if (data.mimetype != 'image/png') {
+        if (!(data.mimetype == 'image/png' || data.mimetype == 'image/jpg' || data.mimetype == 'image/jpeg' || data.mimetype == 'image/heic')) {
             flag = false;
         }
         return data.location;
