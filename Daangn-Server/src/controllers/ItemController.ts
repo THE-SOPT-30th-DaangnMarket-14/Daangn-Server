@@ -24,7 +24,7 @@ const createItem = async (req: Request, res: Response) => {
 
   const imageList = await Promise.all ( 
     reqImage.map((data: Express.MulterS3.File) => { 
-      if (data.mimetype != 'image/png') {
+      if (!(data.mimetype == 'image/png' || data.mimetype == 'image/jpg' || data.mimetype == 'image/jpeg' || data.mimetype == 'image/heic')) {
         flag = false;
       }
       return data.location
