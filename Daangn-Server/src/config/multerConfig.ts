@@ -13,7 +13,8 @@ export const multerConfig = {
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: "public-read",
     key: (req, file, cb) => {
-      cb(null, file.originalname);
+      const datetime = moment().format('YYYYMMDDHHmmss');
+      cb(null, datetime + "_" + file.originalname);
     },
   })
 }
